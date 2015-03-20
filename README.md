@@ -1,45 +1,63 @@
 # deis-dashboard
 
-This is worked version of `lorieri/deis-dashboard`
+This is forked version of `lorieri/deis-dashboard`
 
 Deis Dashboard is a "real time" only http connections dashboard for the [Open Deis PaaS](http://deis.io)
 
-* requires [deis-dashback](https://github.com/lorieri/deis-dashback)
+## Requirements
 
-## How-to
+* A deis cluster
+* Backend daemon: [deis-dashback](https://github.com/lorieri/deis-dashback)
 
-```
+## Installing
+
+First, you need to setup some service units on your cluster. Start by SSH-ing
+to one of your cluster servers. Then, do the following:
+
+```sh
+# Clone the project
 $ git clone https://github.com/lorieri/deis-dashboard.git
 $ cd deis-dashboard
 
-# start the backend in the cluster
+# Start the backend in the cluster
 $ fleetctl start deis-dashback.service
 
-# start the log collection
+# Start the log collection
 $ fleetctl start deis-dashcollect.service
+```
 
-# create and configure your app
+After that, from your development machine:
+
+```sh
+# Clone the project
+$ git clone https://github.com/lorieri/deis-dashboard.git
+$ cd deis-dashboard
+
+# Create and configure your app
 $ deis create deis-dashboard
 $ deis config:set ETCD_HOSTS=http://myhost1:4001,http://myhost2:4001,http://myhost3:4001
 
-# deploy the app:
+# Deploy the app:
 #
-# there are two ways to deploy deis-dashboard, by its Dockerfile or by Docker Hub
+# There are two ways to deploy deis-dashboard:
 
 # by Dockerfile
 $ git push deis master
 
 # *OR*
+
 # by Docker Hub
 $ deis pull lorieri/deis-dashboard
 
-# open it
+# Open it on a web browser
 $ deis open
 ```
 
-## Dashboard
+If the installation succeeded, you may see the dashboard screen
+(see screenshots) bellow. If you are not able to see your apps try sending some
+traffic in your cluster and wait for around 10 seconds.
 
-If the instalation successed you may see the screen bellow, if you are not able to see your apps try sending some traffic in your cluster and wait for ~10 seconds
+## Walkthrough
 
 ### Main Page
 
@@ -65,22 +83,3 @@ The Apps Page show statistics for the last 10 seconds of traffic and 2 horizonta
 Apps page's navigation menu
 
 ![](https://github.com/lorieri/deis-dashboard/wiki/images/dashboardappmenu.png?)
-
-
-## ToDo:
-
- * ~~add new keys from deis-dashback~~
- * fix echart toolbox legends
- * ~~create links to the apps~~
- * ~~put total requests on the main dashboard~~
- * ~~put total requests/s on the main dashboard~~ (unecessary divide by 10...)
- * ~~add etcd suport~~ to get router stats (waiting deis PR)
- * ~~add ENVs for confs~~
- * fix etcd nil values
- * fix chart when no traffic
-
-## Know Issues:
-
- * I'm new in go, goweb, bootstrap, etc...
- * There is a race condition in redis, sometimes an app appears twice
- * pay attention for the "last logline", it shows delays caused by poor performance
