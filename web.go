@@ -16,6 +16,7 @@ import (
 	"gopkg.in/redis.v2"
 
 	"github.com/etcinit/deis-dashboard/cluster"
+	"github.com/etcinit/deis-dashboard/front"
 	"github.com/etcinit/deis-dashboard/util"
 )
 
@@ -41,7 +42,7 @@ func main() {
 
 	goji.Handle("/var.json", vars)
 	goji.Handle("/apps.json", varappsname)
-	goji.Handle("/", dashboard)
+	goji.Handle("/", front.GetDashboard)
 	goji.Handle("/apps/", apps)
 	goji.Handle("/apps/var.json", varsapps)
 
@@ -55,7 +56,7 @@ func main() {
 	flag.Set("bind", ":6969")
 	goji.Serve()
 
-	fmt.Printf("listening on %v...\n", "6969")
+	fmt.Printf("Listening on %v...\n", "6969")
 }
 
 // http://blog.gopheracademy.com/advent-2013/day-06-service-discovery-with-etcd/
@@ -88,12 +89,6 @@ func setRedis() {
 
 		go updateRedis()
 	}
-}
-
-type Page struct {
-	Title string
-	Json  string //[]byte
-	App   string
 }
 
 type AppPage struct {
@@ -345,13 +340,5 @@ func vars(w http.ResponseWriter, r *http.Request) {
 		TotalRequests: totalrequests_str,
 	}
 	t, _ := template.ParseFiles("data.json")
-	t.Execute(w, p)
-}
-
-func dashboard(w http.ResponseWriter, r *http.Request) {
-	title := "Top Requests"
-	t, _ := template.ParseFiles("dash.html")
-
-	p := &Page{Title: title}
 	t.Execute(w, p)
 }
