@@ -26,7 +26,7 @@ var etcdClient *etcd.Client
 func main() {
 	etcdClient = cluster.MakeEtcdClient(util.Getopt("ETCD_HOSTS", ""))
 
-	fmt.Println(etcdClient, "Etcd Servers:", etcdServers)
+	fmt.Println(etcdClient, "etcd Servers:", etcdServers)
 
 	setRedis()
 
