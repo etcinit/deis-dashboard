@@ -1,8 +1,8 @@
 # deis-dashboard
 
-Deis Dashboard is a "real time" only http connections dashboard for the [Open Deis PaaS](http://deis.io)
+This is worked version of `lorieri/deis-dashboard`
 
-It is a personal exercise to learn go, this is my first go app ever.
+Deis Dashboard is a "real time" only http connections dashboard for the [Open Deis PaaS](http://deis.io)
 
 * requires [deis-dashback](https://github.com/lorieri/deis-dashback)
 
@@ -56,7 +56,7 @@ In the top right of the page there is a link for the current apps
 
 ### Apps Page
 
-The Apps Page show statistics for the last 10 seconds of traffic and 2 horizontal bars: 
+The Apps Page show statistics for the last 10 seconds of traffic and 2 horizontal bars:
   * total requests
   * % of successes / % of errors
 
